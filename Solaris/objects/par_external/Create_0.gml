@@ -1,15 +1,17 @@
 
 
-
-
-if room = rm_builder{
-	//placing = true
-}else{
-	//placing = false
-}
-//prev_placing = placing // Used to detect when room is placed
+my_ship = noone // Set when created by obj_ship
 
 prev_moving = false // Used to detect when room is placed
 
 
 anchor_chunk = -1 // Which hull chunk this external object is anchored to
+
+if sprite_index != -1{
+	surf = surface_create(sprite_width*3,sprite_height*3)
+}
+
+mass = 10
+
+
+

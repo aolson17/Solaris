@@ -1,13 +1,10 @@
 
 
 
-gui_lmb_press = false
-
 gui_width = view_get_wport(0)
 gui_height = view_get_hport(0)
 
 build_area_height = .8 // How much of the screen can be clicked on to build things. Other area used for UI interaction
-
 
 
 square_size = gui_width * .05 // Schematic preview size
@@ -22,19 +19,6 @@ cat_surf = surface_create(gui_width,gui_height*(1-build_area_height))
 
 alarm[1] = 1
 
-enum shapes{
-	triangle,
-	rectangle,
-}
-
-enum dirs{
-	left,
-	right,
-	up,
-	down,
-	none
-}
-
 brush_shape = shapes.rectangle // Rectangle or triangle, goes with the shapes enum
 brush_dir = dirs.up // Used currently just for direction of triangle shaped brush
 brush_x = 0
@@ -46,6 +30,8 @@ brush_h = 1
 brush_w_min = 1
 brush_h_min = 1
 
+last_brush_cat = cat.hull // Which cat with a brush was used last, cat.hull or cat.rooms
+
 brush_mat = 0 // The index of the selected material in global.materials
 
 brush_changed = false // If brush col should be updated
@@ -54,28 +40,11 @@ brush_col = false // If the brush is colliding
 room_h_min = 2
 room_w_min = 2
 
-brush_size = 16 // How big each unit of w and h is
-section_size = 32 // How big each unit of w and h is in a room
-
-function hull_chunk( _shape, _x, _y, _width, _height, _dir, _mat) constructor {
-	//set = function( _x, _y ) { x = _x; y = _y }
-	shape = _shape
-	x = _x
-	y = _y
-	w = _width
-	h = _height
-	material = _mat
-	if shape = shapes.triangle{
-		dir = _dir
-	}else{
-		dir = dirs.none
-	}
-}
 
 moving = noone // Which object is being moved or -1 if none
 selecting = -1 // Which object is hovered over or -1 if none
 
-hull_chunks = ds_list_create() // The list of all of the hull chunks
+hull_chunks = obj_ship.hull_chunks // The list of all of the hull chunks. References same list as obj_ship's hull_chunks does
 
 hull_surf = surface_create(1,1) // The surface for all of the hull across the ship. Size is changed to size of ship when filled
 hull_mat_surf = surface_create(1,1) // A helper surface used for each material when making hull_surf

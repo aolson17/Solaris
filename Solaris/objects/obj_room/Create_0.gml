@@ -1,15 +1,8 @@
 
 
 
-section_size = 32 // How many pixels wide each section is and how much the height increments in
+my_ship = noone // Set when created by obj_ship
 
-
-if room = rm_builder{
-	//placing = true
-}else{
-	//placing = false
-}
-//prev_placing = placing // Used to detect when room is placed
 prev_moving = false
 
 
@@ -19,6 +12,7 @@ sections_wide = 2
 
 internals = [] // Holds the ids of each internal or noone if not filled. Offset in section by one to make room for floor elevators
 
+props = ds_list_create() // Holds the ids of each prop anchored to this room
 
 #region Pathfinding
 
@@ -38,4 +32,6 @@ floor_y = y
 
 
 #endregion
+
+
 

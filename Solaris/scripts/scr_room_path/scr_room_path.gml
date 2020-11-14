@@ -106,6 +106,8 @@ function add_to_path(_origin,_current){
 		_current.correct_path = true
 		ds_list_add(room_path,_current)
 		add_to_path(_origin,_current.visited_from)
+	}else{
+		ds_list_add(room_path,_current)
 	}
 }
 #endregion

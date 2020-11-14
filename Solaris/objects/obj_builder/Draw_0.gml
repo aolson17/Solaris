@@ -43,15 +43,21 @@ if keyboard_check(ord("I")) || update_surf{
 	
 	if ship_x2-ship_x > 0 && ship_y2-ship_y > 0{
 		
-		show_debug_message("Surface Dimensions:")
-		show_debug_message("w: "+string(ship_x2-ship_x))
-		show_debug_message("h: "+string(ship_y2-ship_y))
+		//show_debug_message("Surface Dimensions:")
+		//show_debug_message("w: "+string(ship_x2-ship_x))
+		//show_debug_message("h: "+string(ship_y2-ship_y))
 		
 		
 		surface_resize(hull_surf,ship_x2-ship_x,ship_y2-ship_y)
 		surface_resize(hull_mat_surf,ship_x2-ship_x,ship_y2-ship_y)
 		// This helper surface has extra space around for the edges
 		surface_resize(hull_mat_edges_surf,ship_x2-ship_x+hull_surf_edge_space*2,ship_y2-ship_y+hull_surf_edge_space*2)
+		
+		// Prepare the main hull_surf for new hull texures by clearing it
+		surface_set_target(hull_surf)
+		draw_clear_alpha(c_black,0)
+		surface_reset_target()
+		
 		
 		// Find how many materials are being used
 		ds_list_clear(hull_mats_found)
@@ -171,48 +177,6 @@ if keyboard_check(ord("I")) || update_surf{
 //draw_text(mouse_x,mouse_y+20,"h: "+string(mouse_y-ship_y))
 
 
-function draw_hull_chunk(_shape, _x, _y, _width, _height, _dir){
-	if _shape = shapes.rectangle{
-		draw_rectangle(_x,_y,_x+_width*brush_size-1,_y+_height*brush_size-1,false)
-	}else{
-		switch _dir{
-			case dirs.up:
-				var p1_x = _x-1
-				var p1_y = _y+_height*brush_size-1
-				var p2_x = _x+_width*brush_size-1
-				var p2_y = _y+_height*brush_size-1
-				var p3_x = _x+_width*brush_size-1
-				var p3_y = _y-1
-				break
-			case dirs.down:
-				var p1_x = _x-1
-				var p1_y = _y-1
-				var p2_x = _x+_width*brush_size-1
-				var p2_y = _y-1
-				var p3_x = _x-1
-				var p3_y = _y+_height*brush_size-1
-				break
-			case dirs.left:
-				var p1_x = _x-1
-				var p1_y = _y-1
-				var p2_x = _x+_width*brush_size-1
-				var p2_y = _y-1
-				var p3_x = _x+_width*brush_size-1
-				var p3_y = _y+_height*brush_size-1
-				break
-			case dirs.right:
-				var p1_x = _x-1
-				var p1_y = _y-1
-				var p2_x = _x-1
-				var p2_y = _y+_height*brush_size-1
-				var p3_x = _x+_width*brush_size-1
-				var p3_y = _y+_height*brush_size-1
-				break
-		}
-		
-		draw_triangle(p1_x,p1_y,p2_x,p2_y,p3_x,p3_y,false)
-	}
-}
 
 /*
 for (var i = 0; i < ds_list_size(hull_chunks); i++){
@@ -242,6 +206,16 @@ if selecting != -1 {
 		draw_hull_chunk(current_hull_chunk.shape,current_hull_chunk.x,current_hull_chunk.y,current_hull_chunk.w,current_hull_chunk.h,current_hull_chunk.dir)
 	}
 }
+
+/*with(obj_ship){
+	for (var i = 0; i < ds_list_size(hull_chunks);i++){
+		//show_message("testing")
+		var current_hull_chunk = hull_chunks[|i]
+		draw_set_color(c_blue)
+		draw_hull_chunk(current_hull_chunk.shape,current_hull_chunk.x,current_hull_chunk.y,current_hull_chunk.w,current_hull_chunk.h,current_hull_chunk.dir)
+	}
+}*/
+
 
 // Draw Current Brush
 if selected_cat = cat.hull && selecting = -1{

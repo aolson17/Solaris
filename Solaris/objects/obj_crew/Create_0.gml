@@ -1,12 +1,14 @@
 
 mask_index = spr_soldier_mask
 
-xspd = 2
-yspd = 1
-
 spd = 2
 
-my_room = noone
+// Which ship this unit is assigned to
+my_ship = instance_nearest(x,y,obj_ship)
+// Which ship this unit is currently on
+current_ship = my_ship
+
+//my_room = noone delete me? can just use pos_room
 
 moving = false
 target_room = noone
@@ -20,18 +22,10 @@ sprite_gun = spr_soldier_gun_idle
 room_path = ds_list_create() // A list of rooms to follow to reach the target room
 
 
-next_path_x = x
-next_path_y = y
-
-next_path_elevator_x = x
-next_path_elevator_y = y
-used_elevator = false
 using_elevator = false
-needs_elevator = false
-elevator_start_room = noone
 
-elevator_side = "none" // "none" "left" or "right"
 
+orders = ds_list_create() // List of all of the queued orders for this crew member
 
 // When crew is close to each other their images should be offset
 offset_range = 15 // How close must others be to start offseting
@@ -42,5 +36,5 @@ offset_target_magnitude = 0 // Target magnitude
 offset_magnitude = 0 // Current magnitude
 offset_speed_factor = .05 // How fast offset is changed
 
-
-
+crowd_adj_x = x
+crowd_adj_y = y

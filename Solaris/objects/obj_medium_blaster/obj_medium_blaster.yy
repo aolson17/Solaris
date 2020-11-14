@@ -8,8 +8,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "obj_small_blaster",
-    "path": "objects/obj_small_blaster/obj_small_blaster.yy",
+    "name": "par_gun",
+    "path": "objects/par_gun/par_gun.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,

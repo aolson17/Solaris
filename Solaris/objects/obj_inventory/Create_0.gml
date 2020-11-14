@@ -1,14 +1,5 @@
 
 
-
-
-enum cat{ // Categories
-	hull,
-	internal,
-	external,
-	rooms,
-}
-
 schematics = ds_list_create() // The object the schematic is for
 schematics_cat = ds_list_create() // Which tab this schematic falls under in the builder
 schematics_spr = ds_list_create() // The sprite for it in the build menu
@@ -101,16 +92,31 @@ ds_list_add(schematics_spr,spr_room)
 ds_list_add(schematics_cost,2)
 ds_list_add(schematics_name,"Room")
 
+#region Externals
+ds_list_add(schematics_name,"Small Thruster")
+ds_list_add(schematics,obj_small_blaster)
+ds_list_add(schematics_cat,cat.external)
+ds_list_add(schematics_spr,spr_small_blaster)
+ds_list_add(schematics_cost,20)
+ds_list_add(schematics_name,"Small Blaster")
+ds_list_add(schematics,obj_medium_blaster)
+ds_list_add(schematics_cat,cat.external)
+ds_list_add(schematics_spr,spr_medium_blaster)
+ds_list_add(schematics_cost,20)
+ds_list_add(schematics_name,"Medium Blaster")
+ds_list_add(schematics,obj_medium_thruster)
+ds_list_add(schematics_cat,cat.external)
+ds_list_add(schematics_spr,spr_medium_thruster)
+ds_list_add(schematics_cost,20)
+ds_list_add(schematics_name,"Medium Thruster")
+#endregion
+
+#region Internals
 ds_list_add(schematics,obj_tank)
 ds_list_add(schematics_cat,cat.internal)
 ds_list_add(schematics_spr,spr_tank)
 ds_list_add(schematics_cost,2)
 ds_list_add(schematics_name,"Tank")
-ds_list_add(schematics,obj_elevator)
-ds_list_add(schematics_cat,cat.internal)
-ds_list_add(schematics_spr,spr_elevator)
-ds_list_add(schematics_cost,1)
-ds_list_add(schematics_name,"Elevator")
 ds_list_add(schematics,obj_wall)
 ds_list_add(schematics_cat,cat.internal)
 ds_list_add(schematics_spr,spr_wall)
@@ -135,22 +141,24 @@ ds_list_add(schematics,obj_small_thruster)
 ds_list_add(schematics_cat,cat.external)
 ds_list_add(schematics_spr,spr_small_thruster)
 ds_list_add(schematics_cost,20)
-ds_list_add(schematics_name,"Small Thruster")
-ds_list_add(schematics,obj_small_blaster)
-ds_list_add(schematics_cat,cat.external)
-ds_list_add(schematics_spr,spr_small_blaster)
-ds_list_add(schematics_cost,20)
-ds_list_add(schematics_name,"Small Blaster")
-ds_list_add(schematics,obj_medium_blaster)
-ds_list_add(schematics_cat,cat.external)
-ds_list_add(schematics_spr,spr_medium_blaster)
-ds_list_add(schematics_cost,20)
-ds_list_add(schematics_name,"Medium Blaster")
-ds_list_add(schematics,obj_medium_thruster)
-ds_list_add(schematics_cat,cat.external)
-ds_list_add(schematics_spr,spr_medium_thruster)
-ds_list_add(schematics_cost,20)
-ds_list_add(schematics_name,"Medium Thruster")
+#endregion
 
+#region Props
+ds_list_add(schematics_name,"Table")
+ds_list_add(schematics,obj_table)
+ds_list_add(schematics_cat,cat.prop)
+ds_list_add(schematics_spr,spr_table)
+ds_list_add(schematics_cost,4)
+ds_list_add(schematics_name,"Chair")
+ds_list_add(schematics,obj_chair)
+ds_list_add(schematics_cat,cat.prop)
+ds_list_add(schematics_spr,spr_chair)
+ds_list_add(schematics_cost,2)
+ds_list_add(schematics_name,"Sandbags")
+ds_list_add(schematics,obj_sandbags)
+ds_list_add(schematics_cat,cat.prop)
+ds_list_add(schematics_spr,spr_sandbags)
+ds_list_add(schematics_cost,2)
+#endregion
 
 #endregion

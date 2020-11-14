@@ -56,3 +56,4 @@ if room = rm_builder{
 		draw_set_alpha(1)
 	}
 }
+

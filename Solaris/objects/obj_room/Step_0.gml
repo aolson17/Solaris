@@ -1,12 +1,17 @@
 
+		
+floor_x_l = x+10
+floor_x_r = x+sections_wide*section_size-10
+floor_y = y+(sections_tall+1.2)*section_size
 
 if room != rm_builder || obj_builder.moving != id{
 	// Room has already been placed
 	if prev_moving = true{
 		// Room was just placed
 		
-		
 		update_paths = true
+		
+		internals = array_create(sections_wide-2,noone) // Set up internals array as empty but the correct size
 		
 		if sections_wide > 2{
 			for (var i = 1; i < sections_wide; i++){
@@ -20,6 +25,7 @@ if room != rm_builder || obj_builder.moving != id{
 	}
 	#region Set up pathfinding lists
 	if update_paths{
+		
 		update_paths = false
 		// Figure out paths and determine if there should be floor elevators for all rooms
 		
@@ -31,7 +37,7 @@ if room != rm_builder || obj_builder.moving != id{
 			ds_list_clear(paths_elevator_r)
 			
 			with(obj_room){
-				if id != other.id && id != obj_builder.moving{
+				if id != other.id && (room != rm_builder || id != obj_builder.moving){
 					var adj_x = other.x/section_size // The position of the room being updated now
 					var adj_y = other.y/section_size
 				

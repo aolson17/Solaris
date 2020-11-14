@@ -2,22 +2,34 @@
 
 
 
-/*
-if moving{
-	draw_text(x,y,"MOVING")
-	if using_elevator{
-		draw_text(x,y+15,"using_elevator")
-	}
-	if used_elevator{
-		draw_text(x,y+30,"used_elevator")
-	}
+
+for(var i = 0; i < ds_list_size(orders)-1; i++){
+	var current_order = orders[|i]
+	var next_order = orders[|i+1]
+	draw_set_color(c_red)
+	
+	// Rotate order positions around the center of the ship
+	var adj_x_current = scr_x_rotated_around_point(current_order.x+current_ship.x,current_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	var adj_y_current = scr_y_rotated_around_point(current_order.x+current_ship.x,current_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	
+	var adj_x_next = scr_x_rotated_around_point(next_order.x+current_ship.x,next_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	var adj_y_next = scr_y_rotated_around_point(next_order.x+current_ship.x,next_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	
+	draw_line(adj_x_current,adj_y_current,adj_x_next,adj_y_next)
+	//draw_line(current_order.x+current_ship.x,current_order.y+current_ship.y,next_order.x+current_ship.x,next_order.y+current_ship.y)
+	//draw_text(current_order.x+current_ship.x,current_order.y+current_ship.y,string(i))
 }
 
-draw_circle_color(next_path_x,next_path_y,5,c_green,c_black,false)
-
-if keyboard_check(ord("E")){
-	draw_circle_color(next_path_x,next_room.floor_y,5,c_lime,c_black,false)
-}*/
-
-
-
+if !ds_list_empty(orders){
+	var current_order = orders[|0]
+	
+	var adj_x_current = scr_x_rotated_around_point(current_order.x+current_ship.x,current_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	var adj_y_current = scr_y_rotated_around_point(current_order.x+current_ship.x,current_order.y+current_ship.y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	
+	// Rotate x and y around the center of the ship
+	var adj_x = scr_x_rotated_around_point(x,y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	var adj_y = scr_y_rotated_around_point(x,y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
+	
+	draw_set_color(c_red)
+	draw_line(adj_x_current,adj_y_current,adj_x,adj_y)
+}

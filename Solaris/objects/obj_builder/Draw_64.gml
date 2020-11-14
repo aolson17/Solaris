@@ -54,7 +54,15 @@ if gui_lmb{
 			moving = noone
 		}
 		
-		moving = instance_create_layer(mouse_x,mouse_y,"Externals",schematics[|selected_schematic])
+		if selected_cat = cat.external{
+			var cat_layer = "Externals"
+		}else if selected_cat = cat.prop{
+			var cat_layer = "Instances"
+		}else{
+			var cat_layer = "Internals"
+		}
+		
+		moving = instance_create_layer(mouse_x,mouse_y,cat_layer,schematics[|selected_schematic])
 	}else{
 		// If selecting a new material
 		

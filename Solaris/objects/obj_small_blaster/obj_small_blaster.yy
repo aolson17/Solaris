@@ -8,8 +8,8 @@
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "par_external",
-    "path": "objects/par_external/par_external.yy",
+    "name": "par_gun",
+    "path": "objects/par_gun/par_gun.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,

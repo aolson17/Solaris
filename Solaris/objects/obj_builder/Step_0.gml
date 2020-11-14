@@ -71,8 +71,22 @@ if keyboard_check_pressed(ord("1")){
 		selected_cat = cat.hull
 		update_cat_surf = true
 	}
+	
+	// Adjust brush size from room size
+	if last_brush_cat = cat.rooms{
+		brush_w *= section_size/brush_size
+		brush_h *= section_size/brush_size+2
+	}
+	last_brush_cat = cat.hull
 }
 if keyboard_check_pressed(ord("2")){
+	
+	// Adjust brush size from room size
+	if last_brush_cat = cat.hull{
+		brush_w = max(ceil(brush_w/(section_size/brush_size)),room_w_min)
+		brush_h = max(ceil(brush_h/(section_size/brush_size))-2,room_h_min)
+	}
+	last_brush_cat = cat.rooms
 	
 	if moving != noone{
 		instance_destroy(moving)
@@ -131,6 +145,25 @@ if keyboard_check_pressed(ord("4")){
 		}
 	}
 }
+if keyboard_check_pressed(ord("5")){
+	if moving != noone{
+		instance_destroy(moving)
+		moving = noone
+	}
+	
+	if selected_cat != cat.prop{
+		selected_cat = cat.prop
+		update_cat_surf = true
+		var schematics = obj_inventory.schematics
+		var schematics_cat = obj_inventory.schematics_cat
+		for(var i = 0; i < ds_list_size(schematics); i++){
+			if ds_list_find_value(schematics_cat,i) = selected_cat{
+				selected_schematic = i
+				break
+			}
+		}
+	}
+}
 #endregion
 
 #region Brush area select
@@ -151,6 +184,10 @@ if !keyboard_check(vk_shift) && brush_area_selecting{
 	}
 }
 
+if keyboard_check_released(vk_shift){
+	brush_changed = true
+}
+
 #endregion
 
 #region Control Brush
@@ -159,6 +196,9 @@ if device_mouse_y_to_gui(0) < build_area_height*gui_height {
 	if selected_cat = cat.rooms{
 		brush_x = round((mouse_x-section_size/2)/section_size)*section_size
 		brush_y = round((mouse_y-section_size/2)/section_size)*section_size
+	}else if selected_cat = cat.prop{
+		brush_x = round(mouse_x)
+		brush_y = round(mouse_y)
 	}else{
 		brush_x = round((mouse_x-brush_size/2)/brush_size)*brush_size
 		brush_y = round((mouse_y-brush_size/2)/brush_size)*brush_size
@@ -193,11 +233,13 @@ if !keyboard_check(vk_control){
 }else{
 	// Rotation
 	if selected_cat = cat.external{
-		if keyboard_check(vk_left){
-			moving.image_angle += 2
+		if keyboard_check_pressed(vk_left){
+			moving.image_angle += 22.5
+			brush_changed = true
 		}
-		if keyboard_check(vk_right){
-			moving.image_angle -= 2
+		if keyboard_check_pressed(vk_right){
+			moving.image_angle -= 22.5
+			brush_changed = true
 		}
 	}else{
 		if keyboard_check_pressed(vk_down){
@@ -215,6 +257,7 @@ if !keyboard_check(vk_control){
 	}
 }
 
+// Switch shape
 if keyboard_check_pressed(ord("T")){
 	if brush_shape = shapes.rectangle{
 		brush_shape = shapes.triangle
@@ -227,19 +270,105 @@ if keyboard_check_pressed(ord("T")){
 
 #region Move object to brush and place it
 
-if selected_cat = cat.rooms || selected_cat = cat.external{
+if selected_cat != cat.hull{
 	if moving != noone{
 		// Move object along with brush
 		moving.x = brush_x
 		moving.y = brush_y
 		
-		moving.sections_tall = brush_h
-		moving.sections_wide = brush_w
+		if selected_cat = cat.rooms{
+			moving.sections_tall = brush_h
+			moving.sections_wide = brush_w
+		}
 		
-		if selected_cat != cat.external{
+		if selected_cat = cat.rooms{
 			if lmb{
 				if !brush_col{
 					moving = noone
+				}
+			}
+		}else if selected_cat = cat.internal{
+			var brush_room = collision_rooms(mouse_x,mouse_y,1,1,true)
+			brush_col = true
+			anchor_room = noone
+			if brush_room != false{
+				moving.anchor_room = brush_room
+				var brush_index = -1
+				// Go through each place an internal can be placed in this room and see if it would work
+				for (var i = 0; i < brush_room.sections_wide-2;i++){
+					if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
+						// If mouse is selecting here
+						if brush_room.internals[i] = noone{ // Room position is free
+							if brush_room.sections_tall > moving.sections_tall{
+								if moving.sections_wide = 1{
+									brush_col = false
+									brush_index = i
+								}else{
+									var empty_places = 1 // How many adjacent empty internal places have been found so far
+									// Look through the next internal positions in the room to see if there are enough empty spaces
+									for (var j = i; j < min(brush_room.sections_wide-2,i+moving.sections_wide-1);j++){
+										if brush_room.internals[j] = noone{
+											empty_places++
+										}
+									}
+									if empty_places = moving.sections_wide{
+										// If there is enough space
+										brush_col = false
+										brush_index = i
+									}
+								}
+							}
+						}
+						break // Can stop once found right place. TODO: replace for loop with a more direct option
+					}
+				}
+				if !brush_col{
+					brush_x = brush_room.x+(1+brush_index)*section_size
+					brush_y = brush_room.y+(brush_room.sections_tall)*section_size
+					moving.x = brush_x
+					moving.y = brush_y
+					if lmb{
+						if moving.sections_wide > 1{
+							// Set every necessary position to the new object
+							for (var i = 0; i < moving.sections_wide;i++){
+								brush_room.internals[brush_index+i] = moving
+							}
+						}else{
+							brush_room.internals[brush_index] = moving
+						}
+						moving = noone
+					}
+				}
+			}
+		}else if selected_cat = cat.prop{
+			var brush_room = collision_rooms(mouse_x,mouse_y,1,1,true)
+			brush_col = true
+			anchor_room = noone
+			if brush_room != false{
+				// Find the height of a possibly selected floor
+				with(brush_room){
+					other.floor_mouse_y = clamp(mouse_y,y+(sections_tall)*section_size,y+(sections_tall+2)*section_size)
+				}
+				if floor_mouse_y = mouse_y{ // if the mouse is targeting a floor
+					moving.anchor_room = brush_room
+					var brush_index = -1
+					// Go through each place a prop can be placed in this room and see if it would work
+					for (var i = 0; i < brush_room.sections_wide-2;i++){
+						if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
+							// If mouse is selecting here
+							if brush_room.internals[i] = noone || brush_room.internals[i].allow_props{ // Room position is free or allows props
+								brush_col = false
+								brush_index = i
+							}
+							break // Can stop once found right place. TODO: replace for loop with a more direct option
+						}
+					}
+					if !brush_col{
+						if lmb{
+							ds_list_add(brush_room.props, moving)
+							moving = noone
+						}
+					}
 				}
 			}
 		}else{
@@ -276,7 +405,7 @@ if prev_brush_x != brush_x || prev_brush_y != brush_y || brush_changed{
 					break
 				}
 			}
-			if collision_rooms(moving.bbox_left,moving.bbox_top,moving.bbox_right-moving.bbox_left,moving.bbox_bottom-moving.bbox_top){
+			if collision_rooms(moving.bbox_left,moving.bbox_top,moving.bbox_right-moving.bbox_left,moving.bbox_bottom-moving.bbox_top,true) != false{
 				brush_col = true
 			}
 		}
@@ -329,7 +458,7 @@ if selected_cat = cat.hull{
 #region Pick up object
 
 // Ready to pick up an object
-if selected_cat = cat.rooms || selected_cat = cat.external{
+if selected_cat = cat.rooms || selected_cat = cat.external || selected_cat = cat.prop{
 	if selecting != -1{
 		if lmb{
 			brush_changed = true
@@ -347,6 +476,9 @@ if selected_cat = cat.rooms || selected_cat = cat.external{
 					}
 				}
 				moving.update_paths = true
+			}else if selected_cat = cat.prop{
+				// Remove selected prop from anchor room's prop list
+				ds_list_delete(selecting.anchor_room.props,ds_list_find_index(selecting.anchor_room.props,selecting))
 			}
 		}
 	}
@@ -383,6 +515,16 @@ if device_mouse_y_to_gui(0) < build_area_height*gui_height{
 			}
 			break
 		case cat.internal:
+			break
+		case cat.prop:
+			with (par_prop){
+				if other.moving != id{ // Don't select what is already being moved
+					if instance_position(mouse_x,mouse_y,id){
+						other.selecting = id
+						break
+					}
+				}
+			}
 			break
 	}
 }
