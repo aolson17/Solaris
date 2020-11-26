@@ -26,13 +26,13 @@ if (room != rm_builder || id != obj_builder.moving) && point_in_rectangle(mouse_
 		}
 	}
 	
-	show_debug_message(" -------------- "+string(id))
-	show_debug_message("# of paths: "+string(ds_list_size(paths)))
-	show_debug_message("# of paths l: "+string(ds_list_size(paths_elevator_l)))
-	show_debug_message("# of paths r: "+string(ds_list_size(paths_elevator_r)))
-	show_debug_message("adj x: "+string(x/section_size))
-	show_debug_message("adj y: "+string(y/section_size))
-	show_debug_message("first: "+string(paths[|0]))
+	//show_debug_message(" -------------- "+string(id))
+	//show_debug_message("# of paths: "+string(ds_list_size(paths)))
+	//show_debug_message("# of paths l: "+string(ds_list_size(paths_elevator_l)))
+	//show_debug_message("# of paths r: "+string(ds_list_size(paths_elevator_r)))
+	//show_debug_message("adj x: "+string(x/section_size))
+	//show_debug_message("adj y: "+string(y/section_size))
+	//show_debug_message("first: "+string(paths[|0]))
 	
 	draw_set_alpha(1)
 }

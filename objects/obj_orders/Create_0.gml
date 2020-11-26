@@ -7,8 +7,6 @@ selected_ship = instance_nearest(x,y,obj_ship)
 selected_crew = ds_list_create()
 
 
-selecting_crew = false
-
 selected_area_x = 0
 selected_area_y = 0
 

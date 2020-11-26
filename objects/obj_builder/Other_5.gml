@@ -49,6 +49,19 @@ if ship_name != ""{
 		ini_write_string("Internals", "object_name "+string(i), object_get_name(object_index))
 		ini_write_real("Internals", "x "+string(i), x-obj_ship.x)
 		ini_write_real("Internals", "y "+string(i), y-obj_ship.y)
+		ini_write_real("Internals", "sections_tall "+string(i), sections_tall)
+		ini_write_real("Internals", "sections_wide "+string(i), sections_wide)
+		
+		var internals_index = -1
+		// Find the first index of internals that has this object id
+		for (var j = 0; j < ds_list_size(anchor_room.internals); j++){
+			if anchor_room.internals[|j] = id{
+				internals_index = j
+				break
+			}
+		}
+		
+		ini_write_real("Internals", "internals_index "+string(i), internals_index)
 		i++
 	}
 	var i = 0

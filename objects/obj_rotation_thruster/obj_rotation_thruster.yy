@@ -1,17 +1,20 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "spr_rotation_thruster",
+    "path": "sprites/spr_rotation_thruster/spr_rotation_thruster.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "par_external",
-    "path": "objects/par_external/par_external.yy",
+    "name": "par_rotation_thruster",
+    "path": "objects/par_rotation_thruster/par_rotation_thruster.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
-  "physicsGroup": 1,
+  "physicsGroup": 0,
   "physicsDensity": 0.5,
   "physicsRestitution": 0.1,
   "physicsLinearDamping": 0.1,
@@ -28,7 +31,7 @@
     "path": "folders/Objects/Externals.yy",
   },
   "resourceVersion": "1.0",
-  "name": "par_gun",
+  "name": "obj_rotation_thruster",
   "tags": [],
   "resourceType": "GMObject",
 }

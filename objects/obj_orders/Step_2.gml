@@ -3,10 +3,9 @@
 
 
 if instance_number(obj_room) > 0{
-	// TODO: take the rsp into account like xsp and ysp
-	with(pos_room(global.unrotated_mouse_x+selected_ship.xsp,global.unrotated_mouse_y+selected_ship.ysp)){
-		other.floor_mouse_x = global.unrotated_mouse_x+my_ship.xsp
-		other.floor_mouse_y = clamp(global.unrotated_mouse_y,y+(sections_tall)*section_size,y+(sections_tall+2)*section_size)+my_ship.ysp
+	with(pos_room(global.unrotated_mouse_x,global.unrotated_mouse_y)){
+		other.floor_mouse_x = global.unrotated_mouse_x
+		other.floor_mouse_y = clamp(global.unrotated_mouse_y,y+(sections_tall)*section_size,y+(sections_tall+2)*section_size)
 	}
 }else{
 	floor_mouse_x = global.unrotated_mouse_x
@@ -22,7 +21,7 @@ if keyboard_check_pressed(ord("C")){
 	ds_list_add(new_crew.current_ship.ship_crew,new_crew)
 }
 
-if keyboard_check_pressed(ord("X")){
+if keyboard_check_pressed(ord("V")){
 	with(obj_crew){
 		
 		ds_list_delete(current_ship.ship_crew,ds_list_find_index(current_ship.ship_crew,id))
@@ -32,8 +31,7 @@ if keyboard_check_pressed(ord("X")){
 }
 
 
-if move_order{
-	// Giving move order
+if move_order{ // Giving move order
 	for (var i = 0; i < ds_list_size(selected_crew); ++i){
 		with (selected_crew[|i]){
 			#region Clear previous orders unless there is elevator use
@@ -213,6 +211,7 @@ if move_order{
 	}
 }
 
+//Likely also decide between a kickstarter and a publisher. I think that we should try publishers first and do this if we can't find a good enough deal.
 
 if mouse_check_button_pressed(mb_left){
 	selected_area_x = global.unrotated_mouse_x
@@ -240,11 +239,6 @@ if mouse_check_button_released(mb_left) && point_distance(global.unrotated_mouse
 		// TODO check if crew has correct ship to order
 		var current_crew = instance_find(obj_crew,i)
 		// If this crew member is in the area then add it to selected crew
-		//var x1 = min(selected_area_x,global.unrotated_mouse_x) // point_in_rectangle must have correct point for top left and bottom left
-		//var x2 = max(selected_area_x,global.unrotated_mouse_x)
-		//var y1 = min(selected_area_y,global.unrotated_mouse_y)
-		//var y2 = max(selected_area_y,global.unrotated_mouse_y)
-		
 		
 		var x1 = rotated_select_x
 		var y1 = rotated_select_y
@@ -255,12 +249,10 @@ if mouse_check_button_released(mb_left) && point_distance(global.unrotated_mouse
 		var x4 = mouse_x-lengthdir_x(distance_to_other_points,selected_ship.angle)
 		var y4 = mouse_y-lengthdir_y(distance_to_other_points,selected_ship.angle)
 		
-		show_debug_message("step "+string(x1))
-		
 		// Rotate x and y of crew around the center of the ship
 		var adj_x = scr_x_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
 		var adj_y = scr_y_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
-
+		
 		if point_in_triangle(adj_x,adj_y,x1,y1,x2,y2,x3,y3)||point_in_triangle(adj_x,adj_y,x3,y3,x4,y4,x1,y1){
 			ds_list_add(selected_crew,current_crew)
 		}
@@ -268,4 +260,8 @@ if mouse_check_button_released(mb_left) && point_distance(global.unrotated_mouse
 	
 }
 
-
+if mouse_check_button_pressed(mb_left){
+	
+	selected_ship = instance_nearest(mouse_x,mouse_y,obj_ship)
+	
+}

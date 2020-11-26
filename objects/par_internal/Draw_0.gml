@@ -2,7 +2,7 @@
 
 
 
-
+draw_text(x,y,id)
 
 if room = rm_builder{
 	draw_self()

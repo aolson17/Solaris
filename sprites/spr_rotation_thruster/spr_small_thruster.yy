@@ -60,7 +60,7 @@
     "eventStubScript": null,
     "parent": {"name":"spr_small_thruster","path":"sprites/spr_small_thruster/spr_small_thruster.yy",},
     "resourceVersion": "1.3",
-    "name": "spr_small_thruster",
+    "name": "",
     "tags": [],
     "resourceType": "GMSequence",
   },

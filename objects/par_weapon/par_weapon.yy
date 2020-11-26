@@ -1,23 +1,17 @@
 {
-  "spriteId": {
-    "name": "spr_floor",
-    "path": "sprites/spr_floor/spr_floor.yy",
-  },
+  "spriteId": null,
   "solid": false,
   "visible": true,
-  "spriteMaskId": {
-    "name": "spr_floor_mask",
-    "path": "sprites/spr_floor_mask/spr_floor_mask.yy",
-  },
+  "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": {
-    "name": "par_floor",
-    "path": "objects/par_floor/par_floor.yy",
+    "name": "par_external",
+    "path": "objects/par_external/par_external.yy",
   },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
-  "physicsGroup": 0,
+  "physicsGroup": 1,
   "physicsDensity": 0.5,
   "physicsRestitution": 0.1,
   "physicsLinearDamping": 0.1,
@@ -30,11 +24,11 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Floors",
-    "path": "folders/Objects/Floors.yy",
+    "name": "Externals",
+    "path": "folders/Objects/Externals.yy",
   },
   "resourceVersion": "1.0",
-  "name": "obj_floor",
+  "name": "par_weapon",
   "tags": [],
   "resourceType": "GMObject",
 }

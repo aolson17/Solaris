@@ -1,10 +1,16 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "spr_small_thruster",
+    "path": "sprites/spr_small_thruster/spr_small_thruster.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "par_thruster",
+    "path": "objects/par_thruster/par_thruster.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -21,11 +27,11 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Floors",
-    "path": "folders/Objects/Floors.yy",
+    "name": "Externals",
+    "path": "folders/Objects/Externals.yy",
   },
   "resourceVersion": "1.0",
-  "name": "par_floor",
+  "name": "obj_small_thruster",
   "tags": [],
   "resourceType": "GMObject",
 }

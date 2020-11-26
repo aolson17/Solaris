@@ -75,7 +75,7 @@ if keyboard_check_pressed(ord("1")){
 	// Adjust brush size from room size
 	if last_brush_cat = cat.rooms{
 		brush_w *= section_size/brush_size
-		brush_h *= section_size/brush_size+2
+		brush_h = (brush_h+2)*(section_size/brush_size) // The +2 is to account for the extra floor space in a room
 	}
 	last_brush_cat = cat.hull
 }
@@ -190,7 +190,7 @@ if keyboard_check_released(vk_shift){
 
 #endregion
 
-#region Control Brush
+#region Control Brush and object rotation
 
 if device_mouse_y_to_gui(0) < build_area_height*gui_height {
 	if selected_cat = cat.rooms{
@@ -233,13 +233,17 @@ if !keyboard_check(vk_control){
 }else{
 	// Rotation
 	if selected_cat = cat.external{
-		if keyboard_check_pressed(vk_left){
-			moving.image_angle += 22.5
-			brush_changed = true
-		}
-		if keyboard_check_pressed(vk_right){
-			moving.image_angle -= 22.5
-			brush_changed = true
+		if instance_exists(moving){
+			if moving.can_rotate{
+				if keyboard_check_pressed(vk_left){
+					moving.image_angle += 22.5
+					brush_changed = true
+				}
+				if keyboard_check_pressed(vk_right){
+					moving.image_angle -= 22.5
+					brush_changed = true
+				}
+			}
 		}
 	}else{
 		if keyboard_check_pressed(vk_down){
@@ -298,7 +302,7 @@ if selected_cat != cat.hull{
 				for (var i = 0; i < brush_room.sections_wide-2;i++){
 					if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
 						// If mouse is selecting here
-						if brush_room.internals[i] = noone{ // Room position is free
+						if brush_room.internals[|i] = noone{ // Room position is free
 							if brush_room.sections_tall > moving.sections_tall{
 								if moving.sections_wide = 1{
 									brush_col = false
@@ -307,7 +311,7 @@ if selected_cat != cat.hull{
 									var empty_places = 1 // How many adjacent empty internal places have been found so far
 									// Look through the next internal positions in the room to see if there are enough empty spaces
 									for (var j = i; j < min(brush_room.sections_wide-2,i+moving.sections_wide-1);j++){
-										if brush_room.internals[j] = noone{
+										if brush_room.internals[|j] = noone{
 											empty_places++
 										}
 									}
@@ -331,10 +335,10 @@ if selected_cat != cat.hull{
 						if moving.sections_wide > 1{
 							// Set every necessary position to the new object
 							for (var i = 0; i < moving.sections_wide;i++){
-								brush_room.internals[brush_index+i] = moving
+								brush_room.internals[|brush_index+i] = moving
 							}
 						}else{
-							brush_room.internals[brush_index] = moving
+							brush_room.internals[|brush_index] = moving
 						}
 						moving = noone
 					}
@@ -356,7 +360,7 @@ if selected_cat != cat.hull{
 					for (var i = 0; i < brush_room.sections_wide-2;i++){
 						if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
 							// If mouse is selecting here
-							if brush_room.internals[i] = noone || brush_room.internals[i].allow_props{ // Room position is free or allows props
+							if brush_room.internals[|i] = noone || brush_room.internals[|i].allow_props{ // Room position is free or allows props
 								brush_col = false
 								brush_index = i
 							}
@@ -458,7 +462,7 @@ if selected_cat = cat.hull{
 #region Pick up object
 
 // Ready to pick up an object
-if selected_cat = cat.rooms || selected_cat = cat.external || selected_cat = cat.prop{
+if selected_cat = cat.rooms || selected_cat = cat.external || selected_cat = cat.prop || selected_cat = cat.internal{
 	if selecting != -1{
 		if lmb{
 			brush_changed = true
@@ -479,6 +483,17 @@ if selected_cat = cat.rooms || selected_cat = cat.external || selected_cat = cat
 			}else if selected_cat = cat.prop{
 				// Remove selected prop from anchor room's prop list
 				ds_list_delete(selecting.anchor_room.props,ds_list_find_index(selecting.anchor_room.props,selecting))
+			}else if selected_cat = cat.internal{
+				// Remove selected internal from anchor room's internals list
+				
+				var anchor_room = selecting.anchor_room
+				
+				for(var i = 0; i < anchor_room.sections_wide-1; i++){ // Minus one because the first section is used for elevator
+					// Reset any array indices this internal used to be filling to noone
+					if anchor_room.internals[|i] = selecting{
+						anchor_room.internals[|i] = noone
+					}
+				}
 			}
 		}
 	}
@@ -515,6 +530,14 @@ if device_mouse_y_to_gui(0) < build_area_height*gui_height{
 			}
 			break
 		case cat.internal:
+			with (par_internal){
+				if other.moving != id{ // Don't select what is already being moved
+					if instance_position(mouse_x,mouse_y,id){
+						other.selecting = id
+						break
+					}
+				}
+			}
 			break
 		case cat.prop:
 			with (par_prop){

@@ -1,16 +1,20 @@
 
 
-// Rotate x and y around the center of the ship
-var adj_x = scr_x_rotated_around_point(floor_mouse_x,floor_mouse_y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
-var adj_y = scr_y_rotated_around_point(floor_mouse_x,floor_mouse_y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
+if selected_ship != noone{
 
-draw_circle_color(adj_x,adj_y,5,c_red,c_black,false)
+	// Rotate x and y around the center of the ship
+	var adj_x = scr_x_rotated_around_point(floor_mouse_x,floor_mouse_y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
+	var adj_y = scr_y_rotated_around_point(floor_mouse_x,floor_mouse_y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
 
+	draw_circle_color(adj_x,adj_y,5,c_red,c_black,false)
+}
 
 
 draw_circle_color(global.unrotated_mouse_x,global.unrotated_mouse_y,10,c_blue,c_black,false)
 draw_circle_color(floor_mouse_x,floor_mouse_y,10,c_green,c_black,false)
 
+draw_set_color(c_blue)
+draw_circle(global.unrotated_mouse_x,global.unrotated_mouse_y,10,false)
 
 
 // If hold clicking
@@ -34,8 +38,6 @@ if mouse_check_button(mb_left) && point_distance(mouse_x,mouse_y,selected_area_x
 	var y3 = mouse_y
 	var x4 = mouse_x-lengthdir_x(distance_to_other_points,selected_ship.angle)
 	var y4 = mouse_y-lengthdir_y(distance_to_other_points,selected_ship.angle)
-	
-	show_debug_message("draw "+string(x1))
 	
 	// Draw the selection area
 	draw_primitive_begin(pr_linestrip)
@@ -61,3 +63,10 @@ for (var i = 0; i < ds_list_size(selected_crew); i++){
 	}
 }
 
+// Show selected ship
+with(selected_ship){
+	draw_set_color(c_white)
+	draw_circle(x,y,10,true)
+	draw_circle(x,y,9,true)
+	draw_circle(x,y,8,true)
+}

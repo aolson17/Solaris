@@ -33,11 +33,11 @@
   "creationCodeFile": "",
   "inheritCode": false,
   "instanceCreationOrder": [
+    {"name":"inst_4FFD43E9","path":"rooms/rm_space/rm_space.yy",},
     {"name":"inst_6EC79E09","path":"rooms/rm_space/rm_space.yy",},
     {"name":"inst_73F52823","path":"rooms/rm_space/rm_space.yy",},
-    {"name":"inst_266E3544","path":"rooms/rm_space/rm_space.yy",},
-    {"name":"inst_4FFD43E9","path":"rooms/rm_space/rm_space.yy",},
     {"name":"inst_3CCFB623","path":"rooms/rm_space/rm_space.yy",},
+    {"name":"inst_266E3544","path":"rooms/rm_space/rm_space.yy",},
   ],
   "inheritCreationOrder": false,
   "sequenceId": null,

@@ -11,13 +11,18 @@ if room != rm_builder || obj_builder.moving != id{
 		
 		update_paths = true
 		
-		internals = array_create(sections_wide-2,noone) // Set up internals array as empty but the correct size
+		//internals = array_create(sections_wide-2,noone)
+		ds_list_clear(internals)
+		repeat(sections_wide-2){ // Set up internals array as empty but the correct size
+			ds_list_add(internals,noone)
+		}
 		
-		if sections_wide > 2{
+		/*if sections_wide > 2{
 			for (var i = 1; i < sections_wide; i++){
+				//internals[i-1] = noone
 				internals[i-1] = noone
 			}
-		}
+		}*/
 		
 		floor_x_l = x+10
 		floor_x_r = x+sections_wide*section_size-10

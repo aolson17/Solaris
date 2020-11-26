@@ -12,6 +12,9 @@ for(var i = 0; i < ds_list_size(ship_externals); i++){
 		thrust_left += ship_externals[|i].thrust_left
 		thrust_right += ship_externals[|i].thrust_right
 	}
+	if object_is_ancestor(ship_externals[|i].object_index,par_rotation_thruster){
+		thrust_r += ship_externals[|i].thrust
+	}
 }
 for(var i = 0; i < ds_list_size(hull_chunks); i++){
 	var this_chunk = hull_chunks[|i]
@@ -25,11 +28,6 @@ for(var i = 0; i < ds_list_size(hull_chunks); i++){
 	}
 }
 
-/*show_debug_message("Mass: "+string(mass))
-show_debug_message("Thrust up: "+string(thrust_up))
-show_debug_message("Thrust down: "+string(thrust_down))
-show_debug_message("Thrust left: "+string(thrust_left))
-show_debug_message("Thrust right: "+string(thrust_right))
 
 
 

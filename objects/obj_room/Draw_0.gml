@@ -36,9 +36,6 @@ function draw_room(_x,_y,_y_wall,_sections_wide,_sections_tall,_elev_l,_elev_r){
 }
 
 
-
-
-
 if room = rm_builder{
 	draw_room(x,y,y,sections_wide,sections_tall,!ds_list_empty(paths_elevator_l),!ds_list_empty(paths_elevator_r))
 	
@@ -76,3 +73,7 @@ if room = rm_builder{
 }
 
 
+// Show which internals are installed
+//for(var i = 0; i < ds_list_size(internals);i++){
+//	draw_text(x+(i+1)*section_size,y,internals[|i])
+//}
