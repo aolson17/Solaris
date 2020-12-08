@@ -145,7 +145,17 @@ ds_list_add(schematics,obj_crew_beds)
 ds_list_add(schematics_cat,cat.internal)
 ds_list_add(schematics_spr,spr_crew_beds)
 ds_list_add(schematics_cost,3)
-ds_list_add(schematics_name,"Command")
+ds_list_add(schematics_name,"Beds")
+ds_list_add(schematics,obj_fuel_loader)
+ds_list_add(schematics_cat,cat.internal)
+ds_list_add(schematics_spr,spr_fuel_loader)
+ds_list_add(schematics_cost,3)
+ds_list_add(schematics_name,"Fuel Loader")
+ds_list_add(schematics,obj_fuel_storage)
+ds_list_add(schematics_cat,cat.internal)
+ds_list_add(schematics_spr,spr_fuel_storage)
+ds_list_add(schematics_cost,3)
+ds_list_add(schematics_name,"Fuel Storage")
 #endregion
 
 #region Props

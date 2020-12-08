@@ -74,6 +74,6 @@ if room = rm_builder{
 
 
 // Show which internals are installed
-//for(var i = 0; i < ds_list_size(internals);i++){
-//	draw_text(x+(i+1)*section_size,y,internals[|i])
-//}
+for(var i = 0; i < ds_list_size(internals);i++){
+	draw_text(x+(i+1)*section_size,y,internals[|i])
+}

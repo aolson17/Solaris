@@ -16,7 +16,7 @@ if instance_number(obj_room) > 0{
 
 if keyboard_check_pressed(ord("C")){
 	var new_crew = instance_create_layer(floor_mouse_x,floor_mouse_y,"Instances",obj_crew)
-	new_crew.my_ship = instance_nearest(x,y,obj_ship)
+	new_crew.my_ship = selected_ship
 	new_crew.current_ship = new_crew.my_ship
 	ds_list_add(new_crew.current_ship.ship_crew,new_crew)
 }
@@ -238,30 +238,38 @@ if mouse_check_button_released(mb_left) && point_distance(global.unrotated_mouse
 	for (var i = 0; i < instance_number(obj_crew); ++i){
 		// TODO check if crew has correct ship to order
 		var current_crew = instance_find(obj_crew,i)
-		// If this crew member is in the area then add it to selected crew
 		
-		var x1 = rotated_select_x
-		var y1 = rotated_select_y
-		var x2 = rotated_select_x+lengthdir_x(distance_to_other_points,selected_ship.angle)
-		var y2 = rotated_select_y+lengthdir_y(distance_to_other_points,selected_ship.angle)
-		var x3 = mouse_x
-		var y3 = mouse_y
-		var x4 = mouse_x-lengthdir_x(distance_to_other_points,selected_ship.angle)
-		var y4 = mouse_y-lengthdir_y(distance_to_other_points,selected_ship.angle)
+		if current_crew.my_ship = selected_ship{ // If this crew member is crew to the selected ship
+			// If this crew member is in the area then add it to selected crew
+			
+			var x1 = rotated_select_x
+			var y1 = rotated_select_y
+			var x2 = rotated_select_x+lengthdir_x(distance_to_other_points,selected_ship.angle)
+			var y2 = rotated_select_y+lengthdir_y(distance_to_other_points,selected_ship.angle)
+			var x3 = mouse_x
+			var y3 = mouse_y
+			var x4 = mouse_x-lengthdir_x(distance_to_other_points,selected_ship.angle)
+			var y4 = mouse_y-lengthdir_y(distance_to_other_points,selected_ship.angle)
 		
-		// Rotate x and y of crew around the center of the ship
-		var adj_x = scr_x_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
-		var adj_y = scr_y_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
+			// Rotate x and y of crew around the center of the ship
+			var adj_x = scr_x_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
+			var adj_y = scr_y_rotated_around_point(current_crew.x,current_crew.y,selected_ship.x+selected_ship.ship_center_x,selected_ship.y+selected_ship.ship_center_y,selected_ship.angle)
 		
-		if point_in_triangle(adj_x,adj_y,x1,y1,x2,y2,x3,y3)||point_in_triangle(adj_x,adj_y,x3,y3,x4,y4,x1,y1){
-			ds_list_add(selected_crew,current_crew)
+			if point_in_triangle(adj_x,adj_y,x1,y1,x2,y2,x3,y3)||point_in_triangle(adj_x,adj_y,x3,y3,x4,y4,x1,y1){
+				ds_list_add(selected_crew,current_crew)
+			}
 		}
 	}
 	
 }
 
-if mouse_check_button_pressed(mb_left){
+
+// Change selected ship
+if keyboard_check_pressed(vk_control){
 	
-	selected_ship = instance_nearest(mouse_x,mouse_y,obj_ship)
+	var other_ship = instance_nearest(mouse_x,mouse_y,obj_ship)
+	if other_ship.faction_index = 0{ // If the other ship is in the Player faction
+		selected_ship = other_ship
+	}
 	
 }

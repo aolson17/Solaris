@@ -60,7 +60,7 @@
     "eventStubScript": null,
     "parent": {"name":"spr_crew_beds","path":"sprites/spr_crew_beds/spr_crew_beds.yy",},
     "resourceVersion": "1.3",
-    "name": "spr_crew_beds",
+    "name": "",
     "tags": [],
     "resourceType": "GMSequence",
   },

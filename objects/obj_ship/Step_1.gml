@@ -76,6 +76,11 @@ if room != rm_builder && mass != 0{
 	
 	#region Execute lateral movement
 	if xsp != 0 || ysp != 0{
+		
+		// Check collisions
+		
+		
+		
 		x += xsp
 		y += ysp
 		

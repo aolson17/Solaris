@@ -303,6 +303,11 @@ if selected_cat != cat.hull{
 					if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
 						// If mouse is selecting here
 						if brush_room.internals[|i] = noone{ // Room position is free
+							//TODO if using an allow_props system then finish preventing internal from being placed with props around
+							//if !moving.allow_props{ // If this internal does not allow for props in its area then check for props
+							//	for (var j = 0; j < ds_list_size(brush_room.props))
+							//	
+							//}
 							if brush_room.sections_tall > moving.sections_tall{
 								if moving.sections_wide = 1{
 									brush_col = false
@@ -310,7 +315,7 @@ if selected_cat != cat.hull{
 								}else{
 									var empty_places = 1 // How many adjacent empty internal places have been found so far
 									// Look through the next internal positions in the room to see if there are enough empty spaces
-									for (var j = i; j < min(brush_room.sections_wide-2,i+moving.sections_wide-1);j++){
+									for (var j = i+1; j < min(brush_room.sections_wide-2,i+moving.sections_wide);j++){
 										if brush_room.internals[|j] = noone{
 											empty_places++
 										}
@@ -393,7 +398,6 @@ if selected_cat != cat.hull{
 #region Check if brush is colliding with placed stuff
 if prev_brush_x != brush_x || prev_brush_y != brush_y || brush_changed{
 	brush_changed = false
-	show_debug_message("Brush Changed   "+string(random(10)))
 	if selected_cat = cat.hull{
 		brush_col = collision_hull_chunk(brush_x,brush_y,brush_w*brush_size,brush_h*brush_size)
 	}else if selected_cat = cat.rooms{

@@ -3,6 +3,8 @@
 
 #region Load ship
 
+faction_index = 0 // Start in Player's faction until changed when ship is created
+
 ship_rooms = ds_list_create() // Holds ids of room objects
 ship_externals = ds_list_create() // Holds ids of external objects
 ship_internals = ds_list_create() // Holds ids of internal objects

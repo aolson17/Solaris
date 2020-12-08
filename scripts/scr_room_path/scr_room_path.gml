@@ -58,12 +58,16 @@ function find_room_path_bfs(_origin,_target){
 	var queue = ds_queue_create()
 	ds_queue_enqueue(queue,_origin)
 	
+	var origin_ship = _origin.my_ship
 	
-	with (obj_room){
-		visited = false
-		correct_path = false
-		visited_from = noone
+	for (var i = 0; i < ds_list_size(origin_ship.ship_rooms);i++){
+		with(origin_ship.ship_rooms[|i]){
+			visited = false
+			correct_path = false
+			visited_from = noone
+		}
 	}
+	
 	
 	with(_origin){
 		visited = true
