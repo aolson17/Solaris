@@ -2,7 +2,7 @@
 
 
 
-draw_text(x,y,id)
+//draw_text(x,y,id)
 
 if room = rm_builder{
 	draw_self()
@@ -33,11 +33,7 @@ if room = rm_builder{
 }else{ // Not in the build room
 	
 	if sprite_index != -1{
-		// Rotate x and y around the center of the ship
-		var adj_x = scr_x_rotated_around_point(x,y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
-		var adj_y = scr_y_rotated_around_point(x,y,my_ship.x+my_ship.ship_center_x,my_ship.y+my_ship.ship_center_y,my_ship.angle)
-		
-		draw_sprite_ext(sprite_index,0,adj_x,adj_y,1,1,my_ship.angle,c_white,image_alpha)
+		draw_sprite_ext(sprite_index,0,x,y,1,1,0,c_white,image_alpha)
 	}
 }
 

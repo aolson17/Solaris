@@ -9,7 +9,7 @@ can_rotate = true // If this part can be rotated when building the ship
 anchor_chunk = -1 // Which hull chunk this external object is anchored to
 
 if sprite_index != -1{
-	surf = surface_create(sprite_width*3,sprite_height*3)
+	surf = -1 // Set up in draw event
 }
 
 mass = 10

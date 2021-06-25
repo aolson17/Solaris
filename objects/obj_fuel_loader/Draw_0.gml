@@ -4,6 +4,6 @@ event_inherited();
 
 
 
-draw_text("Draw: ")
+//draw_text("Draw: ")
 
 

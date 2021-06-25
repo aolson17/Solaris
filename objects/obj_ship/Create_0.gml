@@ -1,7 +1,5 @@
 
-
-
-#region Load ship
+#region Initialize
 
 faction_index = 0 // Start in Player's faction until changed when ship is created
 
@@ -12,6 +10,31 @@ ship_props = ds_list_create() // Holds ids of prop objects
 hull_chunks = ds_list_create() // Holds hull chunk structs
 
 ship_crew = ds_list_create() // Holds ids of each crew member on the ship
+
+// A struct holding a grid of contiguous floors and info about this grid of floors
+function floor_grid(_x,_y,_grid) constructor{
+	x = _x // Position of top left of the grid relative to the ship
+	y = _y
+	grid = _grid
+	elev_dests = [] // Array of structs holding floor_grids and obj_elevator IDs
+	elev_dests_count = 0
+	
+	// Add a new evelvator destination for this floor grid
+	// _floor_grid is the destination floor_grid, _elev is the instance ID of the elevator that can go there
+	static add_dest = function(_floor_grid, _elev){
+		elev_dests[elev_dests_count] = {
+			dest : _floor_grid,
+			elev : _elev
+		}
+		elev_dests_count++
+	}
+}
+
+floor_grids = ds_list_create() // List of floor_grid structs across the ship to manage walkable cells on the floor. Set up in Alarm 0. Cells hold floor_data
+
+#endregion
+
+#region Load ship
 
 ship_name = get_string("Ship Name to Load?","")
 
@@ -89,7 +112,7 @@ if ship_name != ""{
 			//new_obj.internals = ds_list_create()//array_create(new_obj.sections_wide-2,noone)
 		
 			ds_list_clear(new_obj.internals)
-			repeat(new_obj.sections_wide-2){ // Set up internals list as empty but the correct size
+			repeat(new_obj.sections_wide){ // Set up internals list as empty but the correct size
 				ds_list_add(new_obj.internals,noone)
 			}
 		
@@ -119,7 +142,7 @@ if ship_name != ""{
 			for(var j = 0; j < new_obj.sections_wide;j++){
 				ds_list_set(new_obj.anchor_room.internals,new_obj.internals_index+j,new_obj)
 			}
-			// Add this internal to the ship's props list
+			// Add this internal to the ship's internals list
 			ds_list_add(ship_internals,new_obj)
 			i++
 		}else{
@@ -167,10 +190,10 @@ thrust_down = 0
 thrust_left = 0
 thrust_right = 0
 
-thrust_r = 0
 
-alarm[0] = 2
-
+if room != rm_builder{
+	alarm[0] = 2
+}
 
 #endregion
 
@@ -178,10 +201,6 @@ alarm[0] = 2
 
 xsp = 0
 ysp = 0
-rsp = 0
-
-
-angle = 0
 
 
 
@@ -193,3 +212,4 @@ angle = 0
 //room_edge = spr_backmetal_back
 //room_edge_size = 4
 //room_edge_corner_size = 3
+

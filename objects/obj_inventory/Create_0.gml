@@ -113,11 +113,6 @@ ds_list_add(schematics_cat,cat.external)
 ds_list_add(schematics_spr,spr_medium_thruster)
 ds_list_add(schematics_cost,20)
 ds_list_add(schematics_name,"Medium Thruster")
-ds_list_add(schematics,obj_rotation_thruster)
-ds_list_add(schematics_cat,cat.external)
-ds_list_add(schematics_spr,spr_rotation_thruster)
-ds_list_add(schematics_cost,30)
-ds_list_add(schematics_name,"Rotation Thruster")
 #endregion
 
 #region Internals
@@ -156,6 +151,11 @@ ds_list_add(schematics_cat,cat.internal)
 ds_list_add(schematics_spr,spr_fuel_storage)
 ds_list_add(schematics_cost,3)
 ds_list_add(schematics_name,"Fuel Storage")
+ds_list_add(schematics,obj_elevator)
+ds_list_add(schematics_cat,cat.internal)
+ds_list_add(schematics_spr,spr_elevator)
+ds_list_add(schematics_cost,3)
+ds_list_add(schematics_name,"Elevator")
 #endregion
 
 #region Props

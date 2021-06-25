@@ -240,3 +240,5 @@ if brush_area_selecting{
 
 
 
+//draw_text(mouse_x,mouse_y+5,mouse_x)
+//draw_sprite(spr_floor_2,0,mouse_x,mouse_y)

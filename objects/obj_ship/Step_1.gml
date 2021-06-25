@@ -29,15 +29,6 @@ if room != rm_builder && mass != 0{
 						}
 					}
 				}
-				if object_is_ancestor(object_index,par_rotation_thruster){
-					active = false
-					if keyboard_check(ord("Q")){
-						active = 1
-					}
-					if keyboard_check(ord("E")){
-						active = -1
-					}
-				}
 			}
 		}
 		#endregion
@@ -50,26 +41,14 @@ if room != rm_builder && mass != 0{
 		var move_dir = point_direction(0,0,move_x,move_y)
 		var move_dis = point_distance(0,0,move_x,move_y)
 	
-		xsp += lengthdir_x(move_dis,move_dir+angle)
-		ysp += lengthdir_y(move_dis,move_dir+angle)
+		xsp += lengthdir_x(move_dis,move_dir)
+		ysp += lengthdir_y(move_dis,move_dir)
 	
-		#endregion
-	
-		#region Control rotation
-	
-		move_r = thrust_r*(keyboard_check(ord("E"))-keyboard_check(ord("Q")))/35
-	
-		rsp += move_r
-		
 		#endregion
 	
 		if keyboard_check_pressed(ord("X")){
 			xsp = 0
-			rsp = 0
 			ysp = 0
-		}
-		if keyboard_check_pressed(ord("Z")){
-			angle = 0
 		}
 	
 	}
@@ -126,11 +105,5 @@ if room != rm_builder && mass != 0{
 			current.y += ysp
 		}
 	}
-	#endregion
-	
-	#region Execute rotation
-	
-	angle -= rsp
-	
 	#endregion
 }

@@ -1,9 +1,39 @@
 
 
 
+draw_set_color(c_red)
+if !ds_list_empty(orders){ // If there are orders to do
+	var current_order = orders[|0]
+	
+	// Default to moving to the goal of the order
+	var order_x = current_order.x
+	var order_y = current_order.y
+	var move_type = move_types.walk
+	draw_circle(order_x+current_ship.x,order_y+current_ship.y,3,false)
+	
+	// Check if there are multiple steps to the order
+	for (var i = 0; i < current_order.steps_count; i++){
+		var current_step = current_order.current_step
+		// Go to this step of the order
+		if is_struct(current_order.steps[current_step]){
+			order_x = current_order.steps[current_step].x
+			order_y = current_order.steps[current_step].y
+			move_type = current_order.steps[current_step].type
+			draw_circle(order_x+current_ship.x,order_y+current_ship.y,2,false)
+		}
+	}
+	
+	
+	draw_set_color(c_blue)
+	draw_circle(order_x+current_ship.x,order_y+current_ship.y,2,false)
+	
+	draw_set_color(c_white)
+	draw_text(x,y-50,current_order.current_step)
+}else{
+	draw_circle(x,y,2,false)
+}
 
-
-for(var i = 0; i < ds_list_size(orders)-1; i++){
+/*for(var i = 0; i < ds_list_size(orders)-1; i++){
 	var current_order = orders[|i]
 	var next_order = orders[|i+1]
 	draw_set_color(c_red)

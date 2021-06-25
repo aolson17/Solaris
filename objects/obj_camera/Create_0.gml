@@ -28,11 +28,6 @@ drag_spd_factor = .4
 drag_key = false
 drag_key_pressed = false
 
-global.unrotated_mouse_x = mouse_x // The mouse location when ship rotation is removed
-global.unrotated_mouse_y = mouse_y
-ship_cam_x = 0 // The position of the camera when following a ship, or just the cameras position when not
-ship_cam_y = 0
-
 ship_camera_offset_x = 0
 ship_camera_offset_y = 0
 

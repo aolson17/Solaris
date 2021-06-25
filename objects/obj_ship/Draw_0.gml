@@ -8,19 +8,6 @@ if room != rm_builder{
 
 if sprite_exists(sprite_index){
 	
-	
-	ship_center_x = sprite_width/2
-	ship_center_y = sprite_height/2
-	
-	
-	if room != rm_builder{
-		var adj_x = scr_x_rotated_around_point(x,y,x+ship_center_x,y+ship_center_y,angle)
-		var adj_y = scr_y_rotated_around_point(x,y,x+ship_center_x,y+ship_center_y,angle)
-	}else{
-		var adj_x = x
-		var adj_y = y
-	}
-	
-	draw_sprite_ext(sprite_index,0,adj_x,adj_y,1,1,angle,c_white,1)
+	draw_sprite_ext(sprite_index,0,x,y,1,1,0,c_white,1)
 }
 

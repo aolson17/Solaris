@@ -292,15 +292,15 @@ if selected_cat != cat.hull{
 				}
 			}
 		}else if selected_cat = cat.internal{
-			var brush_room = collision_rooms(mouse_x,mouse_y,1,1,true)
+			var brush_room = collision_rooms(mouse_x,mouse_y,1,1,true) // Room the brush is in
 			brush_col = true
 			anchor_room = noone
 			if brush_room != false{
 				moving.anchor_room = brush_room
 				var brush_index = -1
 				// Go through each place an internal can be placed in this room and see if it would work
-				for (var i = 0; i < brush_room.sections_wide-2;i++){
-					if mouse_x = clamp(mouse_x,brush_room.x+(i+1)*section_size,brush_room.x+(i+2)*section_size){
+				for (var i = 0; i < brush_room.sections_wide;i++){
+					if mouse_x = clamp(mouse_x,brush_room.x+(i)*section_size,brush_room.x+(i+1)*section_size){
 						// If mouse is selecting here
 						if brush_room.internals[|i] = noone{ // Room position is free
 							//TODO if using an allow_props system then finish preventing internal from being placed with props around
@@ -315,7 +315,7 @@ if selected_cat != cat.hull{
 								}else{
 									var empty_places = 1 // How many adjacent empty internal places have been found so far
 									// Look through the next internal positions in the room to see if there are enough empty spaces
-									for (var j = i+1; j < min(brush_room.sections_wide-2,i+moving.sections_wide);j++){
+									for (var j = i+1; j < min(brush_room.sections_wide,i+moving.sections_wide);j++){
 										if brush_room.internals[|j] = noone{
 											empty_places++
 										}
@@ -332,7 +332,7 @@ if selected_cat != cat.hull{
 					}
 				}
 				if !brush_col{
-					brush_x = brush_room.x+(1+brush_index)*section_size
+					brush_x = brush_room.x+(brush_index)*section_size
 					brush_y = brush_room.y+(brush_room.sections_tall)*section_size
 					moving.x = brush_x
 					moving.y = brush_y
@@ -492,7 +492,7 @@ if selected_cat = cat.rooms || selected_cat = cat.external || selected_cat = cat
 				
 				var anchor_room = selecting.anchor_room
 				
-				for(var i = 0; i < anchor_room.sections_wide-1; i++){ // Minus one because the first section is used for elevator
+				for(var i = 0; i < anchor_room.sections_wide; i++){
 					// Reset any array indices this internal used to be filling to noone
 					if anchor_room.internals[|i] = selecting{
 						anchor_room.internals[|i] = noone
